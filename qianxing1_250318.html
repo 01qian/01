@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>浅行 | 个人网站</title>
+
+    <!-- 添加资源预加载 -->
+    <link
+      rel="preload"
+      href="https://s21.ax1x.com/2025/03/09/pEtOL8g.png"
+      as="image"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="favicon/favicon-96x96.png"
+    />
+    <link rel="icon" type="image/png" href="favicon/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <meta name="theme-color" content="#3f4570" />
+
+    <!-- 引入 Font Awesome 图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      /* 全局变量定义 */
+      :root {
+        --primary: #3f4570;
+        --secondary: #9d85ca;
+        --accent: #e5beec;
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --border-radius: 15px;
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
+        --shadow-md: 0 5px 25px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      /* 基础样式重置 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", "Microsoft YaHei", system-ui;
+      }
+
+      /* 页面基础样式 */
+      body {
+        line-height: 1.8;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      /* 头部样式 */
+      header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Logo样式 */
+      .logo {
+        width: 75px;
+        height: 75px;
+        margin-right: 1.5rem;
+        border: 2px solid var(--accent);
+        border-radius: 15px;
+        transition: transform 0.3s;
+      }
+
+      .logo:hover {
+        transform: rotate(10deg);
+      }
+
+      .header-content {
+        flex: 1;
+      }
+
+      /* 导航栏样式 */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1.2rem;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: var(--shadow-sm);
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+        transition: box-shadow 0.3s ease;
+      }
+
+      /* 导航链接样式 */
+      nav a {
+        position: relative;
+        display: inline-block;
+        margin: 0 1.5rem;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        color: var(--primary);
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transform: translateX(-50%);
+        transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      nav a:hover::after {
+        width: 80%;
+      }
+
+      /* 当前活动导航项样式 */
+      nav a.active {
+        background: var(--secondary);
+        color: white;
+        box-shadow: 0 2px 8px rgba(157, 133, 202, 0.3);
+      }
+
+      /* 内容容器样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 2rem;
+      }
+
+      /* 区块样式 */
+      section {
+        position: relative;
+        margin: 2rem 0;
+        padding: 2.5rem;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-md);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: var(--transition);
+      }
+
+      section:hover::before {
+        transform: scaleX(1);
+      }
+
+      section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      /* 作品集网格布局 */
+      .portfolio {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      /* 项目卡片样式 */
+      .project {
+        position: relative;
+        z-index: 1;
+        padding: 1.5rem;
+        overflow: hidden;
+        background: white;
+        border-left: 4px solid var(--secondary);
+        border-bottom: 2px solid var(--accent);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        will-change: transform, box-shadow;
+      }
+
+      .project::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(157, 133, 202, 0.05) 0%,
+          rgba(229, 190, 236, 0.05) 100%
+        );
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      /* 标题样式 */
+      h2 {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: var(--primary);
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--accent);
+      }
+
+      /* 标题描述样式 */
+      .title-description {
+        display: inline-block;
+        margin-left: 15px;
+        padding: 5px 15px;
+        vertical-align: middle;
+        font-size: 0.9rem;
+        font-style: italic;
+        color: var(--secondary);
+        background-color: rgba(229, 190, 236, 0.1);
+        border-left: 4px solid var(--accent);
+        border-radius: 0 15px 15px 0;
+      }
+
+      /* 项目头部样式 */
+      .project-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .project-icon {
+        font-size: 1.5rem;
+        color: var(--secondary);
+      }
+
+      /* 技术栈样式 */
+      .tech-stack {
+        margin: 0.5rem 0;
+        color: var(--primary);
+        font-size: 0.9em;
+        opacity: 0.8;
+      }
+
+      /* 项目链接样式 */
+      .project-link {
+        display: inline-block;
+        margin-top: 1rem;
+        color: var(--secondary);
+        font-weight: 500;
+        text-decoration: none;
+        transition: transform 0.3s;
+      }
+
+      .project-link:hover {
+        transform: translateX(5px);
+      }
+
+      /* 项目卡片悬停效果 */
+      .project:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .project:hover::before {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      /* 页脚样式 */
+      footer {
+        margin-top: 4rem;
+        padding: 2rem;
+        background: var(--primary);
+        color: white;
+        text-align: center;
+      }
+
+      /* 微信二维码悬停提示 */
+      .wechat-tooltip {
+        position: relative;
+      }
+
+      .wechat-qrcode {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        z-index: 1000;
+        padding: 1rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        transform: translateX(-50%) translateY(10px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+          transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+          visibility 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      }
+
+      /* 微信二维码悬停效果 */
+      .wechat-tooltip:hover .wechat-qrcode {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-5px);
+        pointer-events: auto;
+      }
+
+      /* 微信二维码小三角 */
+      .wechat-qrcode::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -8px;
+        border-width: 8px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+      }
+
+      /* 微信二维码图片样式 */
+      .wechat-qrcode img {
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+          box-shadow 0.5s ease;
+      }
+
+      /* 微信二维码图片悬停效果 */
+      .wechat-tooltip:hover .wechat-qrcode img {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 社交媒体图标容器 */
+      .contact-icons {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      /* 社交媒体链接样式 */
+      .contact-icons a {
+        position: relative;
+        display: inline-block;
+        color: #e5e5e5;
+        font-size: 1.8rem;
+        transition: color 0.3s ease,
+          transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .contact-icons a:hover {
+        color: var(--accent);
+        transform: translateY(-5px) scale(1.1);
+      }
+
+      /* 移除社交媒体链接下划线效果 */
+      .contact-icons a::after {
+        content: none;
+      }
+
+      .contact-icons a:hover::after {
+        width: 0;
+      }
+
+      /* 社交媒体图标样式 */
+      .contact-icons a i {
+        display: inline-block;
+        transition: transform 0.3s ease;
+      }
+
+      /* 社交媒体图标悬停动画 */
+      .contact-icons a:hover i {
+        animation: pulse 1s infinite alternate;
+      }
+
+      /* 脉冲动画定义 */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      /* 复制目标样式 */
+      .copy-target {
+        position: relative;
+        cursor: pointer;
+      }
+
+      /* 淡入上移动画 */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 浮动动画 */
+      @keyframes floatAnimation {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      /* 应用浮动动画到微信二维码图片 */
+      .wechat-qrcode img {
+        animation: floatAnimation 3s ease-in-out infinite;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <img
+        src="https://s21.ax1x.com/2025/03/09/pEtOL8g.png"
+        alt="浅行个人Logo"
+        class="logo"
+      />
+      <div class="header-content">
+        <h1>浅行的创意空间</h1>
+        <p>终身学习者 | 知识分享者 | 编程学习中</p>
+      </div>
+    </header>
+
+    <nav aria-label="主导航">
+      <a href="#home"><i class="fas fa-home"></i> 首页</a>
+      <a href="#about"><i class="fas fa-user"></i> 关于</a>
+      <a href="#programming"><i class="fas fa-code"></i> 编程学习</a>
+      <a href="#portfolio"><i class="fas fa-briefcase"></i> 作品</a>
+      <a href="#contact"><i class="fas fa-envelope"></i> 联系</a>
+    </nav>
+
+    <div class="container">
+      <section id="home">
+        <h2>你好呀 欢迎来到我的空间</h2>
+        <span class="title-description">欢迎光临我的个人网站</span>
+        <p>
+          我是浅行，目前宅家学编程
+          <br />在这里我将分享我的编程学习经验、知识分享、个人心得、生活感悟等，欢迎与我交流...
+        </p>
+      </section>
+
+      <section id="about">
+        <h2>关于我</h2>
+        <span class="title-description"
+          >纸上得来终觉浅，绝知此事要躬行。我是浅行，一个热爱学习与分享的程序员。</span
+        >
+
+        <p>...</p>
+        <h3>兴趣爱好</h3>
+        <ul
+          class="skills"
+          style="margin-left: 20px; list-style-position: inside"
+        >
+          <li>影视</li>
+          <li>音乐</li>
+          <li>读书</li>
+          <li>美食</li>
+        </ul>
+      </section>
+
+      <section id="programming">
+        <h2>编程学习</h2>
+        <span class="title-description">学习编程的点滴记录与心得体会</span>
+        <div class="portfolio">
+          <div class="project">
+            <div class="project-header">
+              <i class="fa fa-html5 project-icon" aria-hidden="true"></i>
+              <h3>Html</h3>
+            </div>
+            <div class="project-content">
+              <p class="tech-stack">项目待开发...</p>
+              <p>HTML基础、语义化标签、表单设计、响应式布局...</p>
+              <a href="#" class="project-link">查看详情 →</a>
+            </div>
+          </div>
+          <div class="project">
+            <div class="project-header">
+              <i class="fa fa-css3 project-icon" aria-hidden="true"></i>
+              <h3>Css</h3>
+            </div>
+            <div class="project-content">
+              <p class="tech-stack">项目待开发...</p>
+              <p>CSS选择器、Flexbox布局、Grid布局、动画效果...</p>
+              <a href="#" class="project-link">查看详情 →</a>
+            </div>
+          </div>
+          <div class="project">
+            <div class="project-header">
+              <i class="fab fa-js project-icon"></i>
+              <h3>JavaScript</h3>
+            </div>
+            <div class="project-content">
+              <p class="tech-stack">项目待开发...</p>
+              <p>JS基础语法、DOM操作、事件处理、异步编程...</p>
+              <a href="#" class="project-link">查看详情 →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio">
+        <h2>自我管理系统</h2>
+        <span class="title-description">提升效率与自我成长的个人管理工具</span>
+        <div class="portfolio">
+          <div class="project">
+            <div class="project-header">
+              <i class="fas fa-shopping-cart project-icon"></i>
+              <h3>知识管理系统</h3>
+            </div>
+            <div class="project-content">
+              <p class="tech-stack">项目待开发...</p>
+              <p>学习方法论、领域知识库、经验复盘集、工具说明书...</p>
+              <a href="#" class="project-link">查看详情 →</a>
+            </div>
+          </div>
+          <div class="project">
+            <div class="project-header">
+              <i class="fas fa-chart-line project-icon"></i>
+              <h3>时间管理系统</h3>
+            </div>
+            <div class="project-content">
+              <p class="tech-stack">项目待开发...</p>
+              <p>精力管理、时间管理、效率提升...</p>
+              <a href="#" class="project-link">查看详情 →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="contact-icons">
+        <a
+          href="https://github.com/01qian"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+        >
+          <i class="fab fa-github"></i>
+        </a>
+
+        <a
+          href="https://linkedin.com/in/01qian"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+        >
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="javascript:void(0)" class="wechat-tooltip" aria-label="微信">
+          <i class="fab fa-weixin"></i>
+          <span class="wechat-qrcode">
+            <img
+              src="https://s21.ax1x.com/2025/03/19/pEwJeJJ.jpg"
+              alt="浅行微信个人二维码"
+            />
+          </span>
+        </a>
+      </div>
+      <p>© <span id="currentYear"></span> 浅行 · 用代码创造价值</p>
+    </footer>
+
+    <!-- 移除微信模态框，保留悬停显示功能 -->
+
+    <script>
+      // 页面加载完成后执行所有动画和交互效果
+      document.addEventListener("DOMContentLoaded", function () {
+        // 年份更新
+        document.getElementById("currentYear").textContent =
+          new Date().getFullYear();
+
+        // 获取所有section元素和导航链接
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav a");
+        const projects = document.querySelectorAll(".project");
+        const logo = document.querySelector(".logo");
+
+        // 增强页面加载动画
+        function initPageAnimation() {
+          // 添加页面加载动画
+          document.body.style.opacity = "0";
+          document.body.style.transition =
+            "opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)";
+          setTimeout(() => {
+            document.body.style.opacity = "1";
+          }, 100);
+
+          // 初始化时设置section的初始状态
+          sections.forEach((section, index) => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(20px)";
+            section.style.transition =
+              "opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1)";
+            section.style.transitionDelay = index * 0.1 + "s";
+          });
+
+          // 初始检查哪些元素在视口中
+          setTimeout(checkVisibility, 200);
+        }
+
+        // 增强检查元素是否在视口中的函数
+        function isElementInViewport(el) {
+          const rect = el.getBoundingClientRect();
+          const windowHeight =
+            window.innerHeight || document.documentElement.clientHeight;
+          // 提前触发动画，使滚动体验更加流畅
+          const triggerPoint = windowHeight * 0.85;
+          return rect.top <= triggerPoint && rect.bottom >= 0;
+        }
+
+        // 滚动防抖函数
+        function debounce(func, wait) {
+          let timeout;
+          return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+          };
+        }
+
+        // 增强滚动时检查并显示元素的函数
+        function checkVisibility() {
+          sections.forEach((section) => {
+            if (isElementInViewport(section)) {
+              section.style.opacity = "1";
+              section.style.transform = "translateY(0)";
+            }
+          });
+
+          // 为在视口中的项目添加流畅的延迟动画
+          projects.forEach((project, index) => {
+            if (isElementInViewport(project)) {
+              setTimeout(() => {
+                project.style.opacity = "1";
+                project.style.transform = "translateY(0)";
+                // 添加微小的弹跳效果
+                setTimeout(() => {
+                  project.style.transform = "translateY(-3px)";
+                  setTimeout(() => {
+                    project.style.transform = "translateY(0)";
+                  }, 150);
+                }, 300);
+              }, index * 120);
+            }
+          });
+        }
+
+        // 使用防抖优化滚动性能
+        const debouncedCheckVisibility = debounce(checkVisibility, 50);
+
+        // 增强项目卡片的动画效果
+        projects.forEach((project, index) => {
+          project.style.opacity = "0";
+          project.style.transform = "translateY(15px)";
+          project.style.transition =
+            "opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)";
+          project.style.transitionDelay = index * 0.15 + "s";
+
+          // 添加鼠标悬停时的增强效果
+          project.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-8px) scale(1.02)";
+            this.style.boxShadow = "0 12px 30px rgba(0, 0, 0, 0.15)";
+          });
+
+          project.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0) scale(1)";
+            this.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.1)";
+          });
+        });
+
+        // 导航栏活动状态
+        function setActiveNavLink() {
+          const scrollPosition = window.scrollY;
+
+          sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (
+              scrollPosition >= sectionTop &&
+              scrollPosition < sectionBottom
+            ) {
+              navLinks.forEach((link) => link.classList.remove("active"));
+              if (index < navLinks.length) {
+                navLinks[index].classList.add("active");
+              }
+            }
+          });
+        }
+
+        // 平滑滚动
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+              window.scrollTo({
+                top: targetSection.offsetTop - 80,
+                behavior: "smooth",
+              });
+            }
+          });
+        });
+
+        // 增强微信二维码悬停效果
+        const wechatTooltip = document.querySelector(".wechat-tooltip");
+        const wechatQrcode = document.querySelector(".wechat-qrcode");
+
+        if (wechatTooltip && wechatQrcode) {
+          // 添加鼠标进入时的动画效果
+          wechatTooltip.addEventListener("mouseenter", function () {
+            wechatQrcode.style.transition =
+              "opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.4s ease";
+          });
+
+          // 添加鼠标离开时的动画效果
+          wechatTooltip.addEventListener("mouseleave", function () {
+            wechatQrcode.style.transition =
+              "opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease";
+          });
+        }
+
+        // 增强Logo动画效果
+        if (logo) {
+          logo.addEventListener("mouseover", function () {
+            this.style.transform = "rotate(12deg) scale(1.08)";
+            this.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.2)";
+            this.style.transition =
+              "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease";
+          });
+
+          logo.addEventListener("mouseout", function () {
+            this.style.transform = "";
+            this.style.boxShadow = "";
+          });
+        }
+
+        // 添加优化后的事件监听器
+        window.addEventListener("scroll", debouncedCheckVisibility);
+        window.addEventListener("scroll", setActiveNavLink);
+        window.addEventListener("resize", debouncedCheckVisibility);
+
+        // 添加页面滚动进度指示器
+        window.addEventListener("scroll", function () {
+          const scrollTop = window.scrollY;
+          const docHeight = document.body.offsetHeight - window.innerHeight;
+          const scrollPercent = (scrollTop / docHeight) * 100;
+
+          // 动态更新导航栏阴影效果
+          const nav = document.querySelector("nav");
+          if (scrollTop > 50) {
+            nav.style.boxShadow = "0 5px 20px rgba(0, 0, 0, 0.1)";
+          } else {
+            nav.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
+          }
+        });
+
+        // 键盘导航支持
+        document.addEventListener("keydown", function (e) {
+          // 添加键盘导航支持
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            e.preventDefault();
+            const currentActive = document.querySelector("nav a.active");
+            const navArray = Array.from(navLinks);
+            let currentIndex = navArray.indexOf(currentActive);
+
+            if (e.key === "ArrowDown" && currentIndex < navArray.length - 1) {
+              currentIndex++;
+            } else if (e.key === "ArrowUp" && currentIndex > 0) {
+              currentIndex--;
+            }
+
+            const targetLink = navArray[currentIndex];
+            if (targetLink) {
+              targetLink.click();
+            }
+          }
+        });
+
+        // 初始化页面
+        initPageAnimation();
+        setActiveNavLink();
+      });
+    </script>
+  </body>
+</html>
